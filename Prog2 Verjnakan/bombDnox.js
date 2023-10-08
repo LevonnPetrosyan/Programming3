@@ -1,9 +1,7 @@
-class BombDnox {
+class BombDnox extends LivingCreature{
     constructor(x, y, index) {
-        this.x = x;
-        this.y = y;
+        super(x, y, index)
         this.energy = 1;
-        this.index = index;
         this.directions = [];
     }
     getNewCoordinates() {
@@ -19,20 +17,9 @@ class BombDnox {
         ];
     }
 
-    chooseCell(character) {
-        this.getNewCoordinates()
-        var found = [];
-        for (var i in this.directions) {
-            var x = this.directions[i][0];
-            var y = this.directions[i][1];
-            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
-
-                if (matrix[y][x] == character) {
-                    found.push(this.directions[i]);
-                }
-            }
-        }
-        return found;
+    chooseCell(ch) {
+        this.getNewCoordinates();
+        return super.chooseCell(ch);
     }
     eat() {
 
@@ -44,8 +31,8 @@ class BombDnox {
             if (this.energy % 3 != 0) {
                 this.energy++;
                 matrix[this.y][this.x] = 0
-                 newX = food[0]
-                 newY = food[1]
+                newX = food[0]
+                newY = food[1]
                 matrix[food[1]][food[0]] = 4
                 this.x = newX
                 this.y = newY
@@ -63,7 +50,7 @@ class BombDnox {
                 this.x = newX
                 this.y = newY
 
-     
+
 
             }
             for (var i in grassArr) {
@@ -72,12 +59,12 @@ class BombDnox {
                     break;
                 }
             }
-         
 
-             
+
+
         }
-        else{
-            this.move();    
+        else {
+            this.move();
         }
     }
 

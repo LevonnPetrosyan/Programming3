@@ -1,8 +1,8 @@
 var matrix = [];
 
 var side = 60;
-var n = 30
-var m = 30
+var n = 50
+var m = 50
 
 var grassArr = [];
 var grassEaterArr = [];
@@ -34,7 +34,7 @@ function setup() {
     characters(4, 1)
     characters(5, 0)
     characters(6, 1)
-    frameRate(5);
+    frameRate(10);
     createCanvas(matrix[0].length * side, matrix.length * side);
     background('#acacac');
 

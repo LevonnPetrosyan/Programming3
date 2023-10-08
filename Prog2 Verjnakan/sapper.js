@@ -1,8 +1,6 @@
-class Sapper {
+class Sapper extends LivingCreature{
     constructor(x, y, index) {
-        this.x = x;
-        this.y = y;
-        this.index = index;
+        super(x, y, index)
         this.directions = [];
     }
     getNewCoordinates() {
