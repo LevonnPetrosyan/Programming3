@@ -1,4 +1,8 @@
-class BombDnox extends LivingCreature{
+let LivingCreature = require('./livingCreature')
+let Bomb = require('./bomb')
+let random = require("./random");
+
+module.exports = class BombDnox extends LivingCreature{
     constructor(x, y, index) {
         super(x, y, index)
         this.energy = 1;

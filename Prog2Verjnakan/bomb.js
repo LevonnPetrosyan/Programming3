@@ -1,4 +1,7 @@
-class Bomb extends LivingCreature{
+let LivingCreature = require('./livingCreature')
+let random = require("./random");
+
+module.exports = class Bomb extends LivingCreature{
     constructor(x, y, index) {
         super(x, y, index)
         this.energy = 1;
