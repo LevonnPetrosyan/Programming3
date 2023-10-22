@@ -13,6 +13,8 @@ server.listen(3000, function () {
 
 });
 
+socket.on('update season', count)
+
 let Grass = require('./grass');
 let GrassEater = require('./grassEater');
 let Predator = require('./predator');
@@ -34,12 +36,15 @@ bombDnoxArr = [];
 bombArr = [];
 sapperArr = [];
 
+
 for (let i = 0; i < n; i++) {
    matrix.push([])
    for (let j = 0; j < m; j++) {
       matrix[i].push(0)
    }
 }
+
+
 
 function characters(index, count) {
    for (let i = 0; i < count; i++) {
@@ -50,9 +55,12 @@ function characters(index, count) {
 }
 
 function setupGame() {
-   characters(1, 150)
-   characters(2, 10)
-   characters(3, 6)
+  
+
+
+   characters(1, 75)
+   characters(2, 5)
+   characters(3, 3)
    characters(4, 1)
    characters(5, 0)
    characters(6, 1)
@@ -87,6 +95,7 @@ function setupGame() {
 }
 
 function playGame() {
+
    for (var i in grassArr) {
       grassArr[i].mul();
    }
@@ -108,7 +117,14 @@ function playGame() {
    io.emit('update matrix', matrix)
 }
 
-let intervalID;
+let intervalID ;
+   if (count%2==0) {
+      intervalID = 2000
+   }
+   else{
+      intervalID=500
+   }
+   
 
 function startPlaying() {
    clearInterval(intervalID)

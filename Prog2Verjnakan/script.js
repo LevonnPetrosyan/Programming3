@@ -1,15 +1,32 @@
 const socket = io()
-let side = 60
+let side = 30
 function setup() {
-    createCanvas(3000, 3000);
+    createCanvas(1500, 1500);
     background('#acacac');
+}
+ count = 0
+
+
+season.onclick=function(){
+    if (count % 2 == 0) {
+        season.innerHTML = 'Amar'
+        count++
+    }
+    else{
+        season.innerHTML = 'Dzmer'
+        count++
+    }
+    socket.emit('update season', count)
 }
 
 function drawful(matrix) {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
-            if (matrix[y][x] == 1) {
+            if (matrix[y][x] == 1 && season.innerHTML == 'Dzmer') {
                 fill("green");
+            }
+            else if (matrix[y][x] == 1 && season.innerHTML == 'Amar') {
+                fill("whitesmoke");
             }
             else if (matrix[y][x] == 0) {
                 fill("#acacac");
@@ -33,5 +50,7 @@ function drawful(matrix) {
         }
     }
 }
+
+
 
 socket.on('update matrix', drawful)
