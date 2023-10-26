@@ -13,7 +13,8 @@ server.listen(3000, function () {
 
 });
 
-socket.on('update season', count)
+
+
 
 let Grass = require('./grass');
 let GrassEater = require('./grassEater');
@@ -48,19 +49,20 @@ for (let i = 0; i < n; i++) {
 
 function characters(index, count) {
    for (let i = 0; i < count; i++) {
-      var v = Math.floor(random( n))
-      var w = Math.floor(random( m))
+      var v = Math.floor(random(n))
+      var w = Math.floor(random(m))
       matrix[v][w] = index
    }
 }
 
+
 function setupGame() {
-  
 
 
-   characters(1, 75)
-   characters(2, 5)
-   characters(3, 3)
+
+   characters(1, 20)
+   characters(2, 10)
+   characters(3, 6)
    characters(4, 1)
    characters(5, 0)
    characters(6, 1)
@@ -94,6 +96,9 @@ function setupGame() {
    }
 }
 
+let newCount = 0;
+let speed = 100;
+
 function playGame() {
 
    for (var i in grassArr) {
@@ -114,23 +119,38 @@ function playGame() {
    for (var i in sapperArr) {
       sapperArr[i].eat();
    }
+
+   if (newCount % 2 == 0) {
+      speed = 100
+   }
+   else {
+      speed = 1000
+   }
+   startPlaying()
    io.emit('update matrix', matrix)
 }
 
-let intervalID ;
-   if (count%2==0) {
-      intervalID = 2000
-   }
-   else{
-      intervalID=500
-   }
-   
+
+let intervalID;
+
+io.on('connection', (socket) => {
+
+   socket.on('update season', (count) => {
+      newCount = count
+
+   });
+});
+
 
 function startPlaying() {
    clearInterval(intervalID)
    intervalID = setInterval(() => {
       playGame()
-   }, 1000)
+      console.log(newCount);
+
+      console.log(speed);
+
+   }, speed)
 }
 
 io.on('connection', function (socket) {

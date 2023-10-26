@@ -4,28 +4,28 @@ function setup() {
     createCanvas(1500, 1500);
     background('#acacac');
 }
- count = 0
+count = 0
 
 
-season.onclick=function(){
+season.onclick = function () {
+    count++
     if (count % 2 == 0) {
         season.innerHTML = 'Amar'
-        count++
     }
-    else{
+    else {
         season.innerHTML = 'Dzmer'
-        count++
     }
-    socket.emit('update season', count)
+    socket.emit("update season", count);
+
 }
 
 function drawful(matrix) {
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
-            if (matrix[y][x] == 1 && season.innerHTML == 'Dzmer') {
+            if (matrix[y][x] == 1 && season.innerHTML == 'Amar') {
                 fill("green");
             }
-            else if (matrix[y][x] == 1 && season.innerHTML == 'Amar') {
+            else if (matrix[y][x] == 1 && season.innerHTML == 'Dzmer') {
                 fill("whitesmoke");
             }
             else if (matrix[y][x] == 0) {
