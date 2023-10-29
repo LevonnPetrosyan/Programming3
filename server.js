@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+const fs = require('fs');
 app.use(express.static("."));
 app.get("/", function (req, res) {
    res.redirect("index.html");
@@ -47,6 +48,7 @@ for (let i = 0; i < n; i++) {
 
 
 
+
 function characters(index, count) {
    for (let i = 0; i < count; i++) {
       var v = Math.floor(random(n))
@@ -61,7 +63,7 @@ function setupGame() {
 
 
    characters(1, 20)
-   characters(2, 10)
+   characters(2, 3)
    characters(3, 6)
    characters(4, 1)
    characters(5, 0)
@@ -98,6 +100,7 @@ function setupGame() {
 
 let newCount = 0;
 let speed = 100;
+let newPocoClick = false
 
 function playGame() {
 
@@ -127,6 +130,13 @@ function playGame() {
       speed = 1000
    }
    startPlaying()
+
+   if (newPocoClick == true) {
+      for (var i in bombArr) {
+         bombArr[i].poco();
+         newPocoClick = false
+      }
+   }
    io.emit('update matrix', matrix)
 }
 
@@ -139,6 +149,11 @@ io.on('connection', (socket) => {
       newCount = count
 
    });
+   socket.on('paytecnel', (pocoClick) => {
+      newPocoClick = pocoClick
+
+   });
+   
 });
 
 
@@ -146,10 +161,6 @@ function startPlaying() {
    clearInterval(intervalID)
    intervalID = setInterval(() => {
       playGame()
-      console.log(newCount);
-
-      console.log(speed);
-
    }, speed)
 }
 
@@ -159,3 +170,11 @@ io.on('connection', function (socket) {
    startPlaying()
 })
 
+io.on('connection', (socket) => {
+   socket.emit('draw matrix', matrix)
+   socket.on('Total statistics', (data) => {
+     fs.writeFileSync('data.json', JSON.stringify(data))
+     socket.emit('display statistics', data)
+   })
+ 
+ })

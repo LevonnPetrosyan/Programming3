@@ -5,7 +5,7 @@ function setup() {
     background('#acacac');
 }
 count = 0
-
+pocoClick = false
 
 season.onclick = function () {
     count++
@@ -19,7 +19,17 @@ season.onclick = function () {
 
 }
 
+poco.onclick = function () {
+    pocoClick = true
+    socket.emit("paytecnel", pocoClick)
+    pocoClick = false
+}
+
+
+
 function drawful(matrix) {
+
+
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
             if (matrix[y][x] == 1 && season.innerHTML == 'Amar') {
@@ -49,8 +59,51 @@ function drawful(matrix) {
             rect(x * side, y * side, side, side);
         }
     }
+
+    
+
+
+    function countAllChar() {
+        var allGrassCount = 0;
+        var allGrassEaterCount = 0;
+
+        for (var y = 0; y < matrix.length; y++) {
+            for (var x = 0; x < matrix[y].length; x++) {
+                if (matrix[y][x] == 1) {
+                    allGrassCount++;
+                    data.allGrass = allGrassCount
+                }
+                if (matrix[y][x] == 2) {
+                    allGrassEaterCount++;
+                    data.allGrassEater = allGrassEaterCount
+                }
+            }
+        }
+
+        return data
+    }
+
+
+
+
+    
+    socket.emit('Total statistics', countAllChar())
+    socket.on('display statistics', (data) => {
+        statistics = data
+
+        var updatedText = '';
+        for (var key in statistics) {
+            updatedText += '\n' + key + ' ' + statistics[key];
+        }
+        p.innerText = updatedText;
+
+
+    })
 }
 
+var data = {}
 
+var p = document.createElement('p')
+document.body.appendChild(p)
 
 socket.on('update matrix', drawful)

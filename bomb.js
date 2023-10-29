@@ -1,7 +1,7 @@
 let LivingCreature = require('./livingCreature')
 let random = require("./random");
 
-module.exports = class Bomb extends LivingCreature{
+module.exports = class Bomb extends LivingCreature {
     constructor(x, y, index) {
         super(x, y, index)
         this.energy = 1;
@@ -23,7 +23,7 @@ module.exports = class Bomb extends LivingCreature{
     chooseCell(ch) {
         this.getNewCoordinates();
         return super.chooseCell(ch);
-     }     
+    }
 
     eat() {
         let foods = this.chooseCell(3)
@@ -57,8 +57,25 @@ module.exports = class Bomb extends LivingCreature{
             }
         }
     }
+    poco() {
+        matrix[this.y][this.x] = 0
+        for (var i in this.directions) {
+            var x = this.directions[i][0];
+            var y = this.directions[i][1];
 
+            if (x >= 0 && x < matrix[0].length && y >= 0 && y < matrix.length) {
+                matrix[this.y - 1][this.x - 1] = 0
+                matrix[this.y - 1][this.x + 1] = 0
+                matrix[this.y - 1][this.x] = 0
+                matrix[this.y][this.x - 1] = 0
+                matrix[this.y][this.x + 1] = 0
+                matrix[this.y + 1][this.x - 1] = 0
+                matrix[this.y + 1][this.x] = 0
+                matrix[this.y + 1][this.x + 1] = 0
+            }
 
+        }
+    }
 
 
 }
